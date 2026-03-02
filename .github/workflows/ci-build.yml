@@ -38,8 +38,7 @@ jobs:
         run: |
           cmake \
             --build build \
-            --config RelWithDebInfo \
-            # EOL
+            --config RelWithDebInfo
 
       - name: Upload
         uses: actions/upload-artifact@v3
