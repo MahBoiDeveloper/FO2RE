@@ -28,11 +28,7 @@ jobs:
         shell: cmd
         run: |
           rmdir /s /q build > nul 2> nul
-          cmake \
-            -B build \
-            -G "Visual Studio 16 2019" \
-            -A Win32 \
-            # EOL
+          cmake -B build -G "Visual Studio 16 2019" -A Win32
 
       - name: Build
         run: |
