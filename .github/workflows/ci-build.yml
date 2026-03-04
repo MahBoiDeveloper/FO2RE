@@ -25,6 +25,7 @@ jobs:
           run-build: false
 
       - name: Configure
+        shell: cmd
         run: |
           rmdir /s /q build > nul 2> nul
           cmake \
