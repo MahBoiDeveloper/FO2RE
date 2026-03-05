@@ -9,41 +9,32 @@ on:
       - opened
       - synchronize
 
-defaults:
-  run:
-    shell: bash
-
 jobs:
   build:
-    runs-on: windows-2019
+    runs-on: windows-2022
     steps:
       - name: Clone
-        uses: actions/checkout@v3
-
-      - name: Cache cmake build
-        uses: actions/cache@v3
+        uses: actions/checkout@v4
         with:
-          path: build
-          key: windows-x86-cmake-v1
+          submodules: true
+
+      # Check this about more info: https://github.com/marketplace/actions/cmake-action
+      - name: Set Up CMake
+        uses: threeal/cmake-action@v1.3.0
+        with:
+          run-build: false
 
       - name: Configure
+        shell: cmd
         run: |
-          cmake \
-            -B build \
-            -G "Visual Studio 16 2019" \
-            -A Win32 \
-            # EOL
+          rmdir /s /q build > nul 2> nul
+          cmake -B build -G "Visual Studio 17 2022" -A Win32
 
       - name: Build
-        run: |
-          cmake \
-            --build build \
-            --config RelWithDebInfo \
-            # EOL
+        run: cmake --build build --config RelWithDebInfo
 
       - name: Upload
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: fallout2-re
           path:  build/RelWithDebInfo/fallout2-re.exe
-          retention-days: 7
